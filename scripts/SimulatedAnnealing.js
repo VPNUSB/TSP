@@ -7,12 +7,12 @@ function acceptanceProbability(energy, newEnergy, temperature){
     return Math.exp((energy - newEnergy) / temperature);
 }
 
-function SimulatedAnnealing(tourManager, Tmax, Tmin, coolingRate, r){
+function SimulatedAnnealing(tourManager, Tmax, Tmin, coolingRate, kt){
 	//simulated annealing
  this.Tmax = Tmax; //Tmax
  this.Tmin = Tmin;
- this.coolingRate = coolingRate; //r
- this.r = r;
+ this.coolingRate = coolingRate; 
+ this.kt = kt;
  var tour = initialiseTour(amount);
 
  var currentSolution = new Tour(tour);
@@ -23,10 +23,10 @@ function SimulatedAnnealing(tourManager, Tmax, Tmin, coolingRate, r){
  
  var best = new Tour(currentSolution.getTour());
  
-for(var i = 0; i < r; i++){ 
+for(var i = 0; i < kt; i++){ 
     if (Tmax > Tmin) 
     {
-    var newSolution = new Tour(currentSolution.getTour());
+        var newSolution = new Tour(currentSolution.getTour());
         
         var tourSize= newSolution.tourSize() - 1;
         var position1 = parseInt( tourSize * Math.random()) ; 
@@ -50,7 +50,7 @@ for(var i = 0; i < r; i++){
             best = new Tour(currentSolution.getTour()); 
             console.log(best.getTotalDistance()); // do not remove me. Ever.
         }
-        Tmax *= 1 -coolingRate; // tem *=colrate
+        Tmax *= 1 -coolingRate//1 -coolingRate; // tem *=colrate
     }
     else
     {

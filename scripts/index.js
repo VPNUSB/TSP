@@ -158,10 +158,10 @@ $(document).ready(function() {
         var Tmax = parseFloat($("#temperature").val());
         var Tmin = parseFloat($("#abszero").val());
         var coolingRate = parseFloat($("#coolrate").val());
-        var r = parseFloat($("#numberOfIterations").val());
+        var kt = parseFloat($("#numberOfIterations").val());
         var start = performance.now();
         var bestSA = new Tour(initialiseTour(amount));
-        bestSA = SimulatedAnnealing(tm, Tmax, Tmin, coolingRate, r);
+        bestSA = SimulatedAnnealing(tm, Tmax, Tmin, coolingRate, kt);
 
         console.log("Final solution distance: " + bestSA.getTotalDistance());
         console.log("Tour: " + bestSA); 
@@ -183,7 +183,9 @@ $(document).ready(function() {
     {
         var population = parseInt( $("#population").val() );
         var generations = parseInt( $("#generations").val() );
-        console.log(generations);
+        var mutationRate = parseFloat( $("#mutationRate").val() );
+        var tournamentSize = parseInt( $("#tournamentSize").val() );
+        
         var start = performance.now();
             // Initialize population
         var pop = new Population(population, true);
@@ -192,7 +194,7 @@ $(document).ready(function() {
         console.log("Initial distance: " + initial.getTotalDistance());
         console.log("Initial distance: " + initial.toString());
         /// Evolve population for 100 generations
-        var geneticAlgorithm = new GA();
+        var geneticAlgorithm = new GA(mutationRate, tournamentSize);
         pop = geneticAlgorithm.evolvePopulation(pop);
         for (var i = 0; i < generations; i++) {
             pop = geneticAlgorithm.evolvePopulation(pop);

@@ -49,10 +49,10 @@ function Population(populationSize, initialise){
 }
 
 
-function GA(){
+function GA(mutationRate, tournamentSize){
 	//parameters
-	var mutationRate = 0.015;
-	var tournamentSize = 5;
+	this.mutationRate = mutationRate;
+	this.tournamentSize = tournamentSize;
 	var elitism = true;
 // Evolves a population over one generation
 	this.evolvePopulation = function(population){
@@ -132,7 +132,7 @@ function GA(){
 		// Loop through tour cities
 		for (var i = 0; i < tour.tourSize(); i++) {
 			 // Apply mutation rate
-			 if(Math.random() < mutationRate){
+			 if(Math.random() < this.mutationRate){
 			 	var tourSize = tour.tourSize() - 1;
 			 	// Get a second random position in the tour
 			 	var tourPos = parseInt( tourSize * Math.random() );
@@ -149,10 +149,10 @@ function GA(){
 	// Selects candidate tour for crossover
 	this.tournamentSelection = function(population){
 		 // Create a tournament population
-        var tournament = new Population(tournamentSize, false);
+        var tournament = new Population(this.tournamentSize, false);
         // For each place in the tournament get a random candidate tour and
         // add it
-        for (var i = 0; i < tournamentSize; i++) {
+        for (var i = 0; i < this.tournamentSize; i++) {
 
         	var popSize = population.populationSize() - 1;
             var randomId = parseInt(Math.random() *  popSize);
